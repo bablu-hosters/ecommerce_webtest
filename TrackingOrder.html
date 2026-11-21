@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tracking-order</title>
+    <style>
+       body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h1, h2 {
+    text-align: center;
+    color: #222;
+}
+
+h1 {
+    font-size: 32px;
+    margin-bottom: 25px;
+}
+
+h2 {
+    font-size: 26px;
+    margin-bottom: 25px;
+}
+
+/* Tracking Form */
+.tracking-order {
+    padding: 40px 0;
+    background-color: #fff;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+label {
+    font-weight: bold;
+}
+
+input[type="text"] {
+    padding: 12px;
+    width: 100%;
+    max-width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+    box-sizing: border-box;
+}
+
+input[type="text"]:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+button {
+    padding: 12px 25px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Tracking Result */
+#tracking-result {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Order Status Section */
+.order-status {
+    padding: 30px 0;
+}
+
+.order-status ul {
+    list-style: none;
+    padding: 25px;
+    max-width: 550px;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Timeline Items */
+.order-status li {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    position: relative;
+    min-height: 85px;
+}
+
+/* Timeline Connecting Line */
+.order-status li:not(:last-child)::before {
+    content: "";
+    position: absolute;
+    left: 17px;
+    top: 38px;
+    height: calc(100% - 38px);
+    width: 2px;
+    background-color: #ccc;
+}
+
+/* Status Icons */
+.status-icon {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    border-radius: 50%;
+    background-color: #e0e0e0;
+    color: #666;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    font-weight: bold;
+    z-index: 1;
+}
+
+
+/* Completed Stage */
+.order-status li.completed .status-icon {
+    background-color: #28a745;
+    color: white;
+}
+
+/* Current Stage */
+.order-status li.current .status-icon {
+    background-color: #ff9800;
+    color: white;
+}
+
+/* Pending Stage */
+.order-status li.pending .status-icon {
+    background-color: #e0e0e0;
+    color: #666;
+}
+
+
+.order-status li p {
+    margin: 5px 0;
+    color: #777;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .container {
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 25px;
+    }
+
+    h2 {
+        font-size: 22px;
+    }
+
+    .order-status ul {
+        padding: 20px 15px;
+    }
+
+    .order-status li {
+        gap: 12px;
+    }
+
+    .order-status li h3 {
+        font-size: 15px;
+    }
+
+    .order-status li p {
+        font-size: 13px;
+    }
+}
+
+/* Order Details Section */
+.order-details {
+    padding: 30px 0;
+    background-color: #f4f4f4;
+}
+
+.details-card {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 25px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+}
+
+.details-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 15px;
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.details-row:last-child {
+    border-bottom: none;
+}
+
+.details-row span:first-child {
+    font-weight: bold;
+    color: #444;
+}
+
+.details-row span:last-child {
+    text-align: right;
+    color: #666;
+    overflow-wrap: anywhere;
+}
+
+@media (max-width: 600px) {
+    .details-card {
+        padding: 15px;
+    }
+
+    .details-row {
+        gap: 10px;
+        font-size: 14px;
+    }
+}
+.home-btn {
+    display: inline-block;
+    padding: 12px 22px;
+    background-color: #ff6b35;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    transition: 0.3s;
+}
+
+.home-btn:hover {
+    background-color: #e95420;
+}
+
+/* ===== FOOD EXPRESS TRACKING PAGE DESIGN ===== */
+
+body {
+    background: #fff7f2;
+    color: #292929;
+    font-family: Arial, sans-serif;
+}
+
+/* Hero Section */
+.tracking-order {
+    background: linear-gradient(135deg, #fff0e8, #ffffff);
+    padding: 45px 20px 55px;
+}
+
+.tracking-order .container {
+    max-width: 900px;
+    margin: auto;
+}
+
+/* Main Heading */
+.tracking-order h1 {
+    color: #292929;
+    font-size: 36px;
+    font-weight: 800;
+    margin: 20px 0 30px;
+}
+
+/* Back Home Button */
+.home-btn {
+    display: inline-block;
+    background: #ff6b35;
+    color: white;
+    text-decoration: none;
+    padding: 12px 22px;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.home-btn:hover {
+    background: #e95420;
+    transform: translateY(-2px);
+}
+
+/* Tracking Form */
+#tracking-form {
+    max-width: 580px;
+    margin: 30px auto 0;
+    padding: 30px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.07);
+}
+
+#tracking-form label {
+    color: #333;
+    font-size: 15px;
+}
+
+#tracking-form input {
+    max-width: 100%;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 9px;
+    font-size: 15px;
+}
+
+#tracking-form input:focus {
+    border-color: #ff6b35;
+    box-shadow: 0 0 0 3px rgba(255,107,53,0.12);
+}
+
+#tracking-form button {
+    background: #ff6b35;
+    padding: 14px 30px;
+    border-radius: 8px;
+}
+
+#tracking-form button:hover {
+    background: #e95420;
+}
+
+/* Tracking Result */
+#tracking-result {
+    max-width: 580px;
+    margin: 25px auto 0;
+    line-height: 1.7;
+}
+
+/* Order Status Section */
+.order-status {
+    padding: 50px 20px;
+    background: #fff7f2;
+}
+
+.order-status h2,
+.order-details h2 {
+    font-size: 28px;
+    font-weight: 800;
+    color: #292929;
+    margin-bottom: 30px;
+}
+
+.order-status ul {
+    max-width: 650px;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+}
+
+/* Timeline */
+.order-status li {
+    min-height: 90px;
+}
+
+.order-status li.completed .status-icon {
+    background: #198754;
+}
+
+.order-status li.current .status-icon {
+    background: #ff6b35;
+    box-shadow: 0 0 0 5px rgba(255,107,53,0.12);
+}
+
+.order-status li h3 {
+    color: #292929;
+    margin-top: 5px;
+}
+
+/* Order Details */
+.order-details {
+    padding: 45px 20px 60px;
+    background: #fff;
+}
+
+.details-card {
+    max-width: 650px;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.07);
+}
+
+.details-row {
+    padding: 15px 0;
+}
+
+.details-row span:first-child {
+    color: #333;
+}
+
+.details-row span:last-child {
+    color: #666;
+}
+
+/* Delivery Information */
+#delivery-person-section {
+    margin-top: 20px;
+    padding: 18px;
+    background: #fff4ed;
+    border-radius: 12px;
+}
+
+#delivery-person-section h3 {
+    color: #ff6b35;
+}
+
+/* Mobile Responsive */
+@media (max-width: 600px) {
+
+    .tracking-order {
+        padding: 30px 15px;
+    }
+
+    .tracking-order h1 {
+        font-size: 27px;
+    }
+
+    #tracking-form {
+        padding: 22px 16px;
+    }
+
+    .order-status,
+    .order-details {
+        padding: 35px 15px;
+    }
+
+    .details-card {
+        padding: 18px;
+    }
+
+    .order-status ul {
+        padding: 20px 15px;
+    }
+}
+
+/* Tracking Heading Design */
+
+.tracking-heading {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.tracking-icon {
+    font-size: 42px;
+    margin-bottom: 12px;
+}
+
+.tracking-heading h1 {
+    font-size: 36px;
+    font-weight: 800;
+    color: #292929;
+    margin: 10px 0;
+}
+
+.tracking-heading p {
+    color: #777;
+    font-size: 15px;
+    margin-bottom: 22px;
+}
+
+.tracking-heading .home-btn {
+    display: inline-block;
+    margin: 0 auto;
+}
+
+/* Track Order Button Hover */
+
+#tracking-form button {
+    transition: all 0.3s ease;
+}
+
+#tracking-form button:hover {
+    background: #e95420;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(255, 107, 53, 0.25);
+}
+
+/* Mobile Heading */
+
+@media (max-width: 600px) {
+    .tracking-heading h1 {
+        font-size: 28px;
+    }
+
+    .tracking-icon {
+        font-size: 35px;
+    }
+}
+
+   
+    </style>
+</head>
+<body>
+    <section class="tracking-order">
+        <div class="container">
+           <div class="tracking-heading">
+
+    <div class="tracking-icon">🍔</div>
+
+    <h1>Track Your Order</h1>
+
+    <p>Enter your order ID to track your delicious food.</p>
+
+    <a href="index.html" class="home-btn">
+        🏠 Back to Home
+    </a>
+
+</div>
+            <form id="tracking-form">
+                <label for="order-id">Order ID:</label>
+                <input type="text" id="order-id" name="order-id" required>
+                <button type="submit">Track Order</button>
+            </form>
+            <div id="tracking-result">
+            </div>
+        </div>
+    </section>
+    <section class="order-status">
+        <div class="container">
+            <h2>Order Status</h2>
+            <ul id="status-list">
+                <!-- Order status updates will be displayed here -->
+                 <li>
+                    <span class="status-icon">✓</span>
+                    <div>
+                        <h3>order placed</h3>
+                        <p>Your order has been placed successfully.</p>
+                    </div>
+                 </li>
+                 <li>
+                    <span class="status-icon">✓</span>
+                    <div>
+                        <h3>order confirmed</h3>
+                        <p>Your order has been confirmed and is being processed.</p>
+                    </div>
+                 </li>
+                 <li>
+                    <span class="status-icon">3</span>
+                    <div>
+                        <h3>order shipped</h3>
+                        <p>Your order has been shipped and is on its way.</p>
+                    </div>
+                 </li>
+                 <li>
+                    <span class="status-icon">4</span>
+                    <div>
+                        <h3>out for delivery</h3>
+                        <p>Your order is out for delivery.</p>
+                    </div>
+                 </li>
+                 <li>
+                    <span class="status-icon">5</span>
+                    <div>
+                        <h3>delivered</h3>
+                        <p>Your order has been delivered.</p>
+                    </div>
+                 </li>
+            </ul>
+        </div>
+    </section>
+
+<section class="order-details" id="order-details" style="display: none;">
+    <div class="container">
+        <h2>Order Details</h2>
+
+        <div class="details-card">
+            <div class="details-row">
+                <span>Order ID:</span>
+                <span id="detail-order-id"></span>
+            </div>
+
+            <div class="details-row">
+                <span>Customer Name:</span>
+                <span id="detail-name"></span>
+            </div>
+
+            <div class="details-row">
+                <span>Mobile Number:</span>
+                <span id="detail-mobile"></span>
+            </div>
+
+            <div class="details-row">
+                <span>Email:</span>
+                <span id="detail-email"></span>
+            </div>
+
+            <div class="details-row">
+                <span>Delivery Address:</span>
+                <span id="detail-address"></span>
+            </div>
+
+            <div class="details-row">
+                <span>Products:</span>
+                <span id="detail-products"></span>
+            </div>
+
+            <div class="details-row">
+                <span>Total Amount:</span>
+                <span id="detail-total"></span>
+            </div>
+
+            <div class="details-row">
+                <span>Payment Method:</span>
+                <span id="detail-payment"></span>
+            </div>
+
+            <div id="delivery-person-section" style="display: none;">
+
+    <h3 style="color: #ff6b35; margin: 20px 0 10px;">
+        Delivery Information
+    </h3>
+
+    <div class="details-row">
+        <span>Delivery Person:</span>
+        <span id="detail-delivery-person"></span>
+    </div>
+
+   <div class="details-row">
+    <span>Contact Number:</span>
+
+    <span>
+        <a id="detail-delivery-mobile-link"
+           style="color: #ff6b35; text-decoration: none; font-weight: bold;">
+        </a>
+    </span>
+</div>
+
+</div>
+        </div>
+    </div>
+</section>
+
+    <script>
+    const form = document.getElementById('tracking-form');
+const input = document.getElementById('order-id');
+const resultDiv = document.getElementById('tracking-result');
+const list = document.getElementById('status-list');
+const orderDetails = document.getElementById('order-details');
+
+const detailOrderId = document.getElementById('detail-order-id');
+const detailName = document.getElementById('detail-name');
+const detailMobile = document.getElementById('detail-mobile');
+const detailEmail = document.getElementById('detail-email');
+const detailAddress = document.getElementById('detail-address');
+const detailProducts = document.getElementById('detail-products');
+const detailTotal = document.getElementById('detail-total');
+const detailPayment = document.getElementById('detail-payment');
+const deliveryPersonSection =
+    document.getElementById('delivery-person-section');
+
+const detailDeliveryPerson =
+    document.getElementById('detail-delivery-person');
+
+
+// Hide timeline initially
+list.parentElement.style.display = 'none';
+
+// Order statuses
+
+const statuses = [
+    {
+        name: "Order Placed",
+        description: "Your order has been placed successfully."
+    },
+    {
+        name: "Order Confirmed",
+        description: "Your order has been confirmed."
+    },
+    {
+        name: "Preparing",
+        description: "Your food is being prepared."
+    },
+    {
+        name: "Packed",
+        description: "Your order has been packed."
+    },
+    {
+        name: "Picked Up",
+        description: "Your order has been picked up."
+    },
+    {
+        name: "Out for Delivery",
+        description: "Your order is on its way."
+    },
+    {
+        name: "Delivered",
+        description: "Your order has been delivered."
+    }
+];
+
+function updateTimeline(currentStatus) {
+
+    const currentIndex = statuses.findIndex(
+        status => status.name.toLowerCase() === currentStatus.toLowerCase()
+    );
+
+    list.innerHTML = "";
+
+    statuses.forEach((status, index) => {
+
+        let className = "pending";
+        let icon = index + 1;
+
+      if (
+    index < currentIndex ||
+    (currentStatus === "Delivered" && index === currentIndex)
+) {
+    className = "completed";
+    icon = "✓";
+}
+        else if (index === currentIndex) {
+            className = "current";
+        }
+
+        list.innerHTML += `
+            <li class="${className}">
+                <span class="status-icon">${icon}</span>
+                <div>
+                    <h3>${status.name}</h3>
+                    <p>${status.description}</p>
+                </div>
+            </li>
+        `;
+    });
+}
+
+
+// Search order
+
+async function retrieveOrders(orderId) {
+
+    try {
+        const response = await fetch(
+            `http://127.0.0.1:3000/orders/${encodeURIComponent(orderId)}`
+        );
+
+        if (!response.ok) {
+            resultDiv.innerHTML = `
+                <p>Order not found. Please check your Order ID.</p>
+            `;
+
+            orderDetails.style.display = 'none';
+            list.parentElement.style.display = 'none';
+            return;
+        }
+
+        const foundOrder = await response.json();
+
+        if (!foundOrder) {
+            resultDiv.textContent = "Order not found.";
+            return;
+        }
+
+        // Display order details
+        orderDetails.style.display = 'block';
+
+        detailOrderId.textContent = foundOrder.orderId;
+        detailName.textContent = foundOrder.name;
+        detailMobile.textContent = foundOrder.mobile;
+        detailEmail.textContent = foundOrder.email || 'Not provided';
+        detailAddress.textContent = foundOrder.address;
+
+        detailTotal.textContent = "₹" + foundOrder.totals.total;
+        detailPayment.textContent = foundOrder.paymentMethod;
+
+        // Display assigned delivery person
+
+
+// Display assigned delivery person
+const phoneLink = document.getElementById(
+    'detail-delivery-mobile-link'
+);
+
+if (foundOrder.deliveryPerson) {
+    deliveryPersonSection.style.display = 'block';
+
+    detailDeliveryPerson.textContent =
+        foundOrder.deliveryPerson.name;
+
+    phoneLink.href =
+        `tel:${foundOrder.deliveryPerson.mobile}`;
+
+    phoneLink.textContent =
+        foundOrder.deliveryPerson.mobile;
+
+} else {
+    deliveryPersonSection.style.display = 'none';
+
+    detailDeliveryPerson.textContent = '';
+
+    phoneLink.removeAttribute('href');
+    phoneLink.textContent = '';
+}
+
+
+        detailProducts.textContent = foundOrder.items
+            .map(item =>
+                `${item.name} × ${item.qty} - ₹${item.price * item.qty}`
+            )
+            .join(", ");
+
+        // Handle rejected order
+        if (foundOrder.status === "Rejected") {
+
+            resultDiv.innerHTML = `
+                <h3 style="color:red;">Order Rejected</h3>
+                <p>Sorry! Your order has been rejected.</p>
+            `;
+
+            list.parentElement.style.display = 'none';
+
+            if (trackingInterval) {
+                clearInterval(trackingInterval);
+                trackingInterval = null;
+            }
+
+            return;
+        }
+
+        // Display normal order status
+        resultDiv.innerHTML = `
+            <h3>Order Found!</h3>
+            <p>Order ID: ${foundOrder.orderId}</p>
+            <p>Order Status: ${foundOrder.status}</p>
+        `;
+
+        updateTimeline(foundOrder.status);
+        list.parentElement.style.display = 'block';
+
+        // Handle delivered order
+        if (foundOrder.status === "Delivered") {
+
+            resultDiv.innerHTML += `
+                <h3 style="color:green;">
+                    Your order has been delivered successfully!
+                </h3>
+            `;
+
+            if (trackingInterval) {
+                clearInterval(trackingInterval);
+                trackingInterval = null;
+            }
+        }
+
+    } catch (error) {
+
+        console.error("Backend Error:", error);
+
+        resultDiv.innerHTML = `
+            <p>Unable to connect to the server.
+            Please try again later.</p>
+        `;
+
+        orderDetails.style.display = 'none';
+        list.parentElement.style.display = 'none';
+    }
+}
+
+
+
+// Form submission
+
+let trackingInterval = null;
+
+form.addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const orderId = input.value.trim();
+
+    if (!orderId) {
+        resultDiv.textContent = "Please enter a valid Order ID.";
+        return;
+    }
+
+    // Stop previous automatic tracking
+    if (trackingInterval) {
+        clearInterval(trackingInterval);
+    }
+
+    // Fetch order immediately
+    retrieveOrders(orderId);
+
+    // Refresh order status every 5 seconds
+    trackingInterval = setInterval(() => {
+        retrieveOrders(orderId);
+    }, 5000);
+});
+
+</script>
+   
+</body>
+</html>
